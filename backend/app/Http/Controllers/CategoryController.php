@@ -21,7 +21,7 @@ class CategoryController extends Controller {
 
         // Validate the incoming request
         $validated = $request->validate([
-            'name' => 'required|string|max:50',
+            'name' => 'required|string|max:50|unique:categories,name',
         ]);
 
         // Create a new category using the validated data.
