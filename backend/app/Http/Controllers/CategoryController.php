@@ -61,6 +61,27 @@ class CategoryController extends Controller
     // Delete a specific resource (destroy).
     public function destroy($id)
     {
-        // Empty method
+        try {
+            $category = Category::findOrFail($id);
+
+            $categoryName = $category->name;
+
+            $category->delete();
+
+            return response()->json([
+                'message' => "Category $categoryName with id $id deleted successfully."
+            ], 200);
+
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json([
+                'message' => 'Category not found.'
+            ], 404);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'An error occurred while deleting the category.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 }
