@@ -2,57 +2,50 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\CategoryService;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
+    protected $categoryService;
 
-    // Get all resources (index).
-    public function index()
+    // Inject CategoryService.
+    public function __construct(CategoryService $categoryService)
     {
-        // Empty method
+        $this->categoryService = $categoryService;
     }
 
-    // Get a specific resource by ID (show).
-    public function show($id)
-    {
-        // Empty method
-    }
-
+    // Create a specific category (create).
     public function store(Request $request)
     {
         try {
-            $request->validate([
-                'name' => 'required|string|max:50|unique:categories,name',
-            ], [
-                // Handles the different error messages.
-                'name.required' => 'The category name is required.',
-                'name.string' => 'The category name must be a string.',
-                'name.max' => 'The category name should not exceed 50 characters.',
-                'name.unique' => 'The category name must be unique.',
-            ]);
-            // Return a JSON response indicating failure
-        } catch (\Illuminate\Validation\ValidationException $e) {
+            // Delegate the creation logic to the service layer.
+            $category = $this->categoryService->store($request->all());
 
+            return response()->json([
+                'message' => 'Category created successfully!',
+                'category' => $category,
+            ], 201);
+
+            // Status 422  --> server can't process the request, although it understands it.
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // Return a JSON response indicating validation failure
             return response()->json([
                 'message' => 'Validation failed.',
                 'errors' => $e->errors(),
             ], 422);
-        }
-        // Create a new category using the validated data.
-        $category = Category::create([
-            'name' => $request->name,
-        ]);
 
-        // Return a JSON response indicating success.
-        return response()->json([
-            'message' => 'Category created successfully!',
-            'category' => $category,
-        ], 201);
+        } catch (\Exception $e) {
+            // Handle any other exceptions
+            return response()->json([
+                'message' => 'An error occurred while creating the category.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
 
-    // Update a specific resource (update).
+    // Update a specific category (update).
     public function update(Request $request, $id)
     {
         // Empty method
