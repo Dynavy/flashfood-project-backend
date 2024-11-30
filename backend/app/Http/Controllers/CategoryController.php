@@ -55,11 +55,8 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         try {
-            $category = Category::findOrFail($id);
-
-            $categoryName = $category->name;
-
-            $category->delete();
+            // Delegate the deletion logic to the service layer.
+            $categoryName = $this->categoryService->destroy($id);
 
             return response()->json([
                 'message' => "Category $categoryName with id $id deleted successfully."

@@ -9,7 +9,7 @@ class CategoryService
 {
     public function store(array $data): Category
     {
-        // Validate the Category name.
+        // Validate the Category name and set up personalized validation messages.
         $validator = Validator::make($data, [
             'name' => 'required|string|max:50|unique:categories,name',
         ], [
@@ -25,5 +25,17 @@ class CategoryService
         }
 
         return Category::create($validator->validated());
+    }
+
+    public function destroy(int $id): string
+    {
+        $category = Category::findOrFail($id);
+
+        // Store the Category name that has been deleted.
+        $categoryName = $category->name;
+
+        $category->delete();
+
+        return $categoryName;
     }
 }
