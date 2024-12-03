@@ -27,6 +27,20 @@ class CategoryService
         return Category::create($validator->validated());
     }
 
+    public function update(int $id, array $data): array
+    {
+        $category = Category::findOrFail($id);
+
+        $oldName = $category->name;
+
+        $category->update($data);
+
+        return [
+            'old_name' => $oldName,
+            'new_name' => $category->name,
+        ];
+    }
+
     public function destroy(int $id): string
     {
         $category = Category::findOrFail($id);

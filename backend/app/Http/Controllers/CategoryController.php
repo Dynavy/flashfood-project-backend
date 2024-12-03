@@ -26,7 +26,7 @@ class CategoryController extends Controller
             return response()->json([
                 'message' => 'Category created successfully!',
                 'category' => $category,
-            ], 201);
+            ], status: 201);
 
             // Status 422  --> server can't process the request, although it understands it.
         } catch (\Illuminate\Validation\ValidationException $e) {
@@ -46,9 +46,30 @@ class CategoryController extends Controller
     }
 
     // Update a specific category (update).
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id)
     {
-        // Empty method
+        try {
+            $validatedData = $request->validate([
+                'name' => 'required|string|max:255',
+            ]);
+
+            $nameChange = $this->categoryService->update($id, $validatedData);
+
+            return response()->json([
+                'message' => "The category has been successfully updated from '{$nameChange['old_name']}' to '{$nameChange['new_name']}'."
+            ], 200);
+
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json([
+                'message' => 'Category not found.'
+            ], 404);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'An error occurred while updating the category.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
     // Delete a specific resource (destroy).
