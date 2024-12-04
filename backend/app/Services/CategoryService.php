@@ -7,6 +7,20 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 class CategoryService
 {
+    public function index(): array
+    {
+        $categories = Category::all();
+
+        return $categories->toArray();
+    }
+
+    public function show(int $id): array
+    {
+        $category = Category::findOrFail($id);
+
+        return $category->toArray();
+    }
+
     public function store(array $data): Category
     {
         // Validate the Category name and set up personalized validation messages.
@@ -25,6 +39,20 @@ class CategoryService
         }
 
         return Category::create($validator->validated());
+    }
+
+    public function update(int $id, array $data): array
+    {
+        $category = Category::findOrFail($id);
+
+        $oldName = $category->name;
+
+        $category->update($data);
+
+        return [
+            'old_name' => $oldName,
+            'new_name' => $category->name,
+        ];
     }
 
     public function destroy(int $id): string
