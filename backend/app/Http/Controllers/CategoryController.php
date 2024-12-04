@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Services\CategoryService;
-use App\Models\Category;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -64,7 +63,7 @@ class CategoryController extends Controller
 
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return response()->json([
-                'message' => 'Category not found.'
+                'message' => "Category with id $id not found."
             ], 404);
 
         } catch (\Exception $e) {
