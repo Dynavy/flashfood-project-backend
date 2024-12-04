@@ -15,6 +15,37 @@ class CategoryController extends Controller
         $this->categoryService = $categoryService;
     }
 
+    public function index()
+    {
+        $categories = $this->categoryService->index();
+
+        return response()->json([
+            'message' => 'Categories retrieved successfully!',
+            'categories' => $categories,
+        ], 200);
+    }
+
+    public function show($id)
+    {
+        try {
+            $category = $this->categoryService->show($id);
+
+            return response()->json([
+                'message' => 'Category retrieved successfully!',
+                'category' => $category,
+            ], 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json([
+                'message' => "Category with id $id not found.",
+            ], 404);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'An error occurred while retrieving the category.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
     // Create a specific category (create).
     public function store(Request $request)
     {
