@@ -7,6 +7,20 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 class CategoryService
 {
+    public function index(): array
+    {
+        $categories = Category::all();
+
+        return $categories->toArray();
+    }
+
+    public function show(int $id): array
+    {
+        $category = Category::findOrFail($id);
+
+        return $category->toArray();
+    }
+
     public function store(array $data): Category
     {
         // Validate the Category name and set up personalized validation messages.
