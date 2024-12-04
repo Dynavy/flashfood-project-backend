@@ -34,7 +34,6 @@ class RestaurantService
     // Destroy method on RestaurantController.
     public function destroy(int $id): string
     {
-
         try {
             DB::beginTransaction();
             $restaurant = Restaurant::findOrFail($id);
@@ -45,13 +44,11 @@ class RestaurantService
             return $restaurantName;
 
         } catch (\Exception $e) {
-            DB::rollBack(); // Si ocurre un error, revierte la transacción
+            DB::rollBack();
 
-            // Puedes registrar el error si lo deseas
-            \Log::error('Error al eliminar restaurante: ' . $e->getMessage());
+            \Log::error('Error when deleting a restaurant: ' . $e->getMessage());
 
-            // Retorna un error 500
-            return response()->json(['error' => 'Error al eliminar el restaurante.'], 500);
+            return response()->json(['error' => 'Error deleting the restaurant.'], 500);
         }
     }
 }
