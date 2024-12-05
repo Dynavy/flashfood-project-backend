@@ -32,6 +32,7 @@ class RestaurantController extends Controller
     {
         $restaurant = $this->restaurantService->showByID($id);
         return response()->json([
+            'message' => 'Restaurant retrieved successfully!',
             'status' => 'success',
             'data' => $restaurant
         ], 200);
@@ -41,9 +42,10 @@ class RestaurantController extends Controller
     {
         $restaurantName = $this->restaurantService->findByName($name);
         return response()->json([
+            'message' => 'Restaurant retrieved successfully!',
             'status' => 'success',
             'data' => $restaurantName
-        ]);
+        ], 200);
     }
 
     // Create a specific category (create).
