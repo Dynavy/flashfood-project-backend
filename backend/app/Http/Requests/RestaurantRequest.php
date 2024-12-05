@@ -16,7 +16,7 @@ class RestaurantRequest extends FormRequest
 
     public function rules(): array
     {
-        return [
+        $rules = [
             'name' => 'required|string|max:100',
             'address' => 'required|string|max:255',
             'latitude' => 'required|numeric|between:-90,90',
@@ -26,6 +26,16 @@ class RestaurantRequest extends FormRequest
             'website' => ['nullable', 'regex:/^https:\/\/.+$/', 'max:255'],
             'rating' => 'nullable|numeric|min:0|max:5',
         ];
+
+        if ($this->isMethod('patch')) {
+            $rules['address'] = 'nullable|string|max:255';
+            $rules['latitude'] = 'nullable|numeric';
+            $rules['longitude'] = 'nullable|numeric';
+            $rules['google_place_id'] = 'nullable|string';
+            $rules['phone'] = 'nullable|string|max:15';
+        }
+
+        return $rules;
     }
 
     // Status 422  --> Server can't process the request, although it understands it.
