@@ -6,6 +6,12 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class RestaurantRequest extends FormRequest
 {
+
+    public function authorize()
+    {
+        return true;
+    }
+
     public function rules(): array
     {
         return [
