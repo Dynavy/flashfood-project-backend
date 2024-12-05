@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Services\CategoryService;
-use Illuminate\Http\Request;
+use App\Http\Requests\CategoryRequest;
+
 
 class CategoryController extends Controller
 {
@@ -28,7 +29,7 @@ class CategoryController extends Controller
     public function show($id)
     {
         try {
-            $category = $this->categoryService->show($id);
+            $category = $this->categoryService->showByID($id);
 
             return response()->json([
                 'message' => 'Category retrieved successfully!',
@@ -47,24 +48,16 @@ class CategoryController extends Controller
     }
 
     // Create a specific category (create).
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
         try {
             // Delegate the creation logic to the service layer.
-            $category = $this->categoryService->store($request->all());
+            $category = $this->categoryService->store($request->validated());
 
             return response()->json([
                 'message' => 'Category created successfully!',
                 'category' => $category,
-            ], status: 201);
-
-            // Status 422  --> server can't process the request, although it understands it.
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            // Return a JSON response indicating validation failure
-            return response()->json([
-                'message' => 'Validation failed.',
-                'errors' => $e->errors(),
-            ], 422);
+            ], 201);
 
         } catch (\Exception $e) {
             // Handle any other exceptions
@@ -76,7 +69,7 @@ class CategoryController extends Controller
     }
 
     // Update a specific category (update).
-    public function update(Request $request, int $id)
+    public function update(CategoryRequest $request, int $id)
     {
         try {
             $validatedData = $request->validate([
