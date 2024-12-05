@@ -3,7 +3,8 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -21,19 +22,6 @@ class Handler extends ExceptionHandler
                     'details' => 'The resource you requested could not be found in the database.',
                 ],
             ], 404);
-        }
-
-        // Status 422  --> Server can't process the request, although it understands it.
-        if ($exception instanceof ValidationException) {
-            return response()->json([
-                'status' => 'error',
-                'code' => 422,
-                'message' => 'Validation failed.',
-                'error' => [
-                    'type' => 'ValidationException',
-                    'details' => $exception->errors(),
-                ],
-            ], 422);
         }
 
         // Status 500 --> Internal server error, something went wrong on the server. 
