@@ -4,31 +4,46 @@ namespace App\Services;
 
 use App\Models\Restaurant;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class RestaurantService
 {
-    // Show method on RestaurantController.
-    public function showByID($id)
-    {
-        return Restaurant::findOrFail($id);
-    }
-
-    // FindByName method on RestaurantController.
-    public function findByName($name)
-    {
-        return Restaurant::where('name', 'like', '%' . $name . '%')->get();
-    }
-
     // Index method on RestaurantController.
     public function index()
     {
         return Restaurant::query();
     }
 
+    // Show method on RestaurantController.
+    public function showByID($id)
+    {
+        // throw new ModelNotFoundException("test");
+        $restaurant = Restaurant::findOrFail($id);
+        return $restaurant;
+    }
+
+    // FindByName method on RestaurantController.
+    public function findByName($name)
+    {
+        $restaurantName = Restaurant::where('name', 'like', '%' . $name . '%')->get();
+
+        if (!$restaurantName) {
+            throw new ModelNotFoundException();
+        }
+        return $restaurantName;
+    }
+
     // Store method on RestaurantController.
     public function store(array $data): Restaurant
     {
         return Restaurant::create($data);
+    }
+
+    public function update(int $id, array $data): Restaurant
+    {
+        $restaurant = Restaurant::findOrFail($id);
+        $restaurant->update($data);
+        return $restaurant;
     }
 
     // Destroy method on RestaurantController.
