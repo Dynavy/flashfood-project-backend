@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->decimal('longitude', 11, 8);
             $table->string('google_place_id')->unique();
             $table->string('phone', 15)->unique();
-            $table->string('website', 255);
+            $table->string('website', 255)->nullable();
             $table->decimal('rating', 2, 1)->default(0);
             $table->timestamps();
         });
