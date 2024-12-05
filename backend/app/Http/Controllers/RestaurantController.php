@@ -17,42 +17,66 @@ class RestaurantController extends Controller
         $this->restaurantService = $restaurantService;
     }
 
-    public function show(RestaurantRequest $request, $id)
-    {
-        $restaurant = $this->restaurantService->showByID($id);
-        return response()->json($restaurant);
-    }
-
-    public function findByName(RestaurantRequest $request, $name)
-    {
-        $restaurantName = $this->restaurantService->findByName($name);
-        return response()->json($restaurantName);
-    }
-
     public function index()
     {
         // Pagination in case the restaurnt list is very large.
         $restaurants = $this->restaurantService->index()->paginate(50);
-        return response()->json($restaurants);
+        return response()->json([
+            'message' => 'Restaurants retrieved successfully!',
+            'status' => 'success',
+            'data' => $restaurants
+        ], 200);
+    }
+
+    public function show($id)
+    {
+        $restaurant = $this->restaurantService->showByID($id);
+        return response()->json([
+            'status' => 'success',
+            'data' => $restaurant
+        ], 200);
+    }
+
+    public function findByName($request, $name)
+    {
+        $restaurantName = $this->restaurantService->findByName($name);
+        return response()->json([
+            'status' => 'success',
+            'data' => $restaurantName
+        ]);
     }
 
     // Create a specific category (create).
     public function store(RestaurantRequest $request)
     {
-        // Delegate the creation logic to the service layer.
-        $restaurant = $this->restaurantService->store($request->all());
+        try {
+            // Delegate the creation logic to the service layer.
+            $restaurant = $this->restaurantService->store($request->validated());
+            return response()->json([
+                'message' => 'Category created successfully!',
+                'category' => $restaurant,
+            ], status: 201);
 
-        return response()->json([
-            'message' => 'Restaurant created successfully!',
-            'restaurant' => $restaurant,
-        ], 201);
+        } catch (\Exception $e) {
+            // Handle any other exceptions
+            return response()->json([
+                'message' => 'An error occurred while creating the category.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
 
 
-    // Update a specific category (update).
-    public function update(Request $request, $id)
+    // Update a specific restaurant (update).
+    public function update(RestaurantRequest $request, $id)
     {
-        // Empty method
+        $restaurant = $this->restaurantService->update($id, $request->validated());
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Restaurant updated successfully!',
+            'data' => $restaurant,
+        ], status: 201);
     }
 
     // Delete a specific resource (destroy).
