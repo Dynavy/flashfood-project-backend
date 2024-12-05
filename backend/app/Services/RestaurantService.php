@@ -25,12 +25,9 @@ class RestaurantService
     // FindByName method on RestaurantController.
     public function findByName($name)
     {
-        $restaurantName = Restaurant::where('name', 'like', '%' . $name . '%')->get();
 
-        if (!$restaurantName) {
-            throw new ModelNotFoundException();
-        }
-        return $restaurantName;
+        return Restaurant::where('name', 'like', '%' . $name . '%')->get();
+
     }
 
     // Store method on RestaurantController.

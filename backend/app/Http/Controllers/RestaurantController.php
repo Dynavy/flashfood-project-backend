@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\RestaurantService;
 use App\Http\Requests\RestaurantRequest;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+
 
 class RestaurantController extends Controller
 {
@@ -38,9 +40,19 @@ class RestaurantController extends Controller
         ], 200);
     }
 
-    public function findByName($request, $name)
+    public function findByName($name)
     {
+
         $restaurantName = $this->restaurantService->findByName($name);
+
+        if ($restaurantName->isEmpty()) {
+            return response()->json([
+                'message' => 'No restaurant found with that name.',
+                'status' => 'error',
+                'data' => []
+            ], 404);
+        }
+
         return response()->json([
             'message' => 'Restaurant retrieved successfully!',
             'status' => 'success',
