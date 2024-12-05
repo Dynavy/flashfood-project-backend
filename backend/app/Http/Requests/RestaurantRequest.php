@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class RestaurantRequest extends FormRequest
 {
@@ -24,6 +26,17 @@ class RestaurantRequest extends FormRequest
             'website' => ['nullable', 'regex:/^https:\/\/.+$/', 'max:255'],
             'rating' => 'nullable|numeric|min:0|max:5',
         ];
+    }
+
+    // Status 422  --> Server can't process the request, although it understands it.
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(
+            response()->json([
+                'message' => 'The given data was invalid.',
+                'errors' => $validator->errors(),
+            ], 422)
+        );
     }
 }
 
