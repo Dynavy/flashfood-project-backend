@@ -90,7 +90,7 @@ class RestaurantController extends Controller
             'status' => 'success',
             'message' => 'Restaurant updated successfully!',
             'data' => $restaurant,
-        ], status: 201);
+        ], status: 200);
     }
 
     // Delete a specific resource (destroy).
