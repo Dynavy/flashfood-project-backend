@@ -18,7 +18,7 @@ class RestaurantFactory extends Factory
             'latitude' => $this->faker->latitude,
             'longitude' => $this->faker->longitude,
             'google_place_id' => $this->faker->unique()->word,
-            'phone' => $this->faker->phoneNumber,
+            'phone' => $this->faker->numerify('9########'),
             'website' => $this->faker->url,
             'rating' => $this->faker->randomFloat(1, 0, 5),
         ];
