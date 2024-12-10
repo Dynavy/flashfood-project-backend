@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -13,20 +12,20 @@ return new class extends Migration
     {
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('restaurant_id');
-            $table->unsignedInteger('user_id');
+            $table->unsignedBigInteger('restaurant_id');
+            $table->unsignedBigInteger('user_id');
             $table->text('comment');
             $table->timestamps();
 
             $table->foreign('restaurant_id')
-                  ->references('id')
-                  ->on('restaurants')
-                  ->onDelete('cascade');
+                ->references('id')
+                ->on('restaurants')
+                ->onDelete('cascade');
 
             $table->foreign('user_id')
-                  ->references('id')
-                  ->on('users')
-                  ->onDelete('cascade');
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
         });
     }
 
