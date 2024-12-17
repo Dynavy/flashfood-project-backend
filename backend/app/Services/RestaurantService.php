@@ -34,6 +34,7 @@ class RestaurantService
         return Restaurant::create($data);
     }
 
+    // Update method on RestaurantController.
     public function update(int $id, array $data): Restaurant
     {
         $restaurant = Restaurant::findOrFail($id);

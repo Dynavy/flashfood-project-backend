@@ -21,7 +21,7 @@ class RestaurantController extends Controller
 
     public function index()
     {
-        // Pagination in case the restaurnt list is very large.
+        // Pagination in case the restaurant list is very large.
         $restaurants = $this->restaurantService->index()->paginate(50);
         return response()->json([
             'message' => 'Restaurants retrieved successfully!',
@@ -60,21 +60,21 @@ class RestaurantController extends Controller
         ], 200);
     }
 
-    // Create a specific category (create).
+    // Create a specific restaurant (create).
     public function store(RestaurantRequest $request)
     {
         try {
             // Delegate the creation logic to the service layer.
             $restaurant = $this->restaurantService->store($request->validated());
             return response()->json([
-                'message' => 'Category created successfully!',
-                'category' => $restaurant,
+                'message' => 'restaurant created successfully!',
+                'restaurant' => $restaurant,
             ], status: 201);
 
         } catch (\Exception $e) {
             // Handle any other exceptions
             return response()->json([
-                'message' => 'An error occurred while creating the category.',
+                'message' => 'An error occurred while creating the restaurant.',
                 'error' => $e->getMessage(),
             ], 500);
         }
@@ -100,7 +100,7 @@ class RestaurantController extends Controller
         $restaurantName = $this->restaurantService->destroy($id);
 
         return response()->json([
-            'message' => "Category $restaurantName with id $id deleted successfully."
+            'message' => "Restaurant $restaurantName with id $id deleted successfully."
         ], 200);
     }
 }
