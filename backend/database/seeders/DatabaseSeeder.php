@@ -17,7 +17,8 @@ class DatabaseSeeder extends Seeder
             CategoriesTableSeeder::class,
             RestaurantsTableSeeder::class,
             UserTableSeeder::class,
-            ReviewsTableSeeder::class
+            ReviewsTableSeeder::class,
+            OfferTableSeeder::class
         ]);
 
         // User::factory(10)->create();
