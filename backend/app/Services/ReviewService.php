@@ -5,6 +5,8 @@ namespace App\Services;
 use App\Models\Review;
 use App\Models\Restaurant;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ReviewService
 {
@@ -35,8 +37,21 @@ class ReviewService
     }
 
     // Delete a review.
-    public function deleteReview(Review $review): void
+    public function deleteReview(int $id): string
     {
-        $review->delete();
+        try {
+            DB::beginTransaction();
+
+            $review = Review::findOrFail($id);
+            $restaurantName = $review->restaurant->name;
+            $review->delete();
+
+            DB::commit();
+
+            return $restaurantName;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 }
