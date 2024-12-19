@@ -18,13 +18,17 @@ class Restaurant extends Model
         'phone',
         'website',
         'rating',
-
     ];
 
+    /**
+     * Get the categories associated with the restaurant.
+     *
+     * This method establishes the many-to-many relationship between
+     * the Restaurant and Category models. A restaurant can belong
+     * to many categories through the 'restaurant_categories' pivot table.
+     */
     public function categories()
     {
         return $this->belongsToMany(Category::class, 'restaurant_categories', 'restaurant_id', 'category_id');
     }
 }
-
-
