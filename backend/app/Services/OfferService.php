@@ -67,7 +67,7 @@ class OfferService
      * Update an existing offer by its ID.
      *
      * This method finds an offer by its ID and updates it with the provided data. 
-     * It returns both the old and new titles of the offer.
+     * It returns both the old and new names of the offer.
      *
      * @param int $id
      * @param array $data
@@ -76,24 +76,15 @@ class OfferService
      */
     public function update($id, array $data)
     {
-        $offer = Offer::find($id);
-        if (!$offer) {
-            throw new ModelNotFoundException("Offer with id $id not found.");
-        }
-
-        $oldTitle = $offer->title;
+        $offer = Offer::findOrFail($id);
         $offer->update($data);
-
-        return [
-            'old_title' => $oldTitle,
-            'new_title' => $offer->title
-        ];
+        return $restaurant;
     }
 
     /**
      * Delete an offer by its ID.
      *
-     * This method deletes an offer and returns its title before deletion. 
+     * This method deletes an offer and returns its name before deletion. 
      * If the offer doesn't exist, it throws a ModelNotFoundException.
      *
      * @param int $id
@@ -107,10 +98,10 @@ class OfferService
             throw new ModelNotFoundException("Offer with id $id not found.");
         }
 
-        $offerTitle = $offer->title;
+        $offername = $offer->name;
 
         $offer->delete();
 
-        return $offerTitle;
+        return $offername;
     }
 }
