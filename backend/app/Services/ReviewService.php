@@ -27,10 +27,10 @@ class ReviewService
     }
 
     // Update an existing review.
-    public function updateReview(Review $review, array $data): Review
+    public function updateReview(int $id, array $data): Review
     {
+        $review = Review::findOrFail($id);
         $review->update($data);
-
         return $review;
     }
 
