@@ -44,15 +44,6 @@ class RestaurantController extends Controller
     {
 
         $restaurantName = $this->restaurantService->findByName($name);
-
-        if ($restaurantName->isEmpty()) {
-            return response()->json([
-                'message' => 'No restaurant found with that name.',
-                'status' => 'error',
-                'data' => []
-            ], 404);
-        }
-
         return response()->json([
             'message' => 'Restaurant retrieved successfully!',
             'status' => 'success',
@@ -63,21 +54,12 @@ class RestaurantController extends Controller
     // Create a specific restaurant (create).
     public function store(RestaurantRequest $request)
     {
-        try {
-            // Delegate the creation logic to the service layer.
-            $restaurant = $this->restaurantService->store($request->validated());
-            return response()->json([
-                'message' => 'restaurant created successfully!',
-                'restaurant' => $restaurant,
-            ], status: 201);
-
-        } catch (\Exception $e) {
-            // Handle any other exceptions
-            return response()->json([
-                'message' => 'An error occurred while creating the restaurant.',
-                'error' => $e->getMessage(),
-            ], 500);
-        }
+        // Delegate the creation logic to the service layer.
+        $restaurant = $this->restaurantService->store($request->validated());
+        return response()->json([
+            'message' => 'Restaurant created successfully!',
+            'restaurant' => $restaurant,
+        ], status: 201);
     }
 
 
