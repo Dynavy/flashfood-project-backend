@@ -1,0 +1,45 @@
+name: Laravel CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up PHP 8.2
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'
+        extensions: mbstring, xml, bcmath, sqlite3, pdo, pdo_mysql
+
+    - name: Install Composer
+      run: |
+        cd backend
+        curl -sS https://getcomposer.org/installer | php
+        mv composer.phar /usr/local/bin/composer
+
+    - name: Install dependencies
+      run: |
+        cd backend
+        composer install --no-interaction
+
+    - name: Run migrations
+      run: |
+        cd backend
+        php artisan migrate --env=testing
+        php artisan db:seed --env=testing
+
+    - name: Run Laravel tests
+      run: |
+        cd backend
+        php artisan test
