@@ -33,11 +33,14 @@ jobs:
         cd backend
         composer install --no-interaction
 
-    - name: Set up testing database
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'
+
+    - name: Install Newman
       run: |
-        sudo apt-get install mysql-server
-        sudo service mysql start
-        mysql -e "CREATE DATABASE IF NOT EXISTS testing"
+        npm install -g newman
 
     - name: Run migrations and seed database
       run: |
@@ -49,10 +52,7 @@ jobs:
       run: |
         cd backend
         php artisan serve --host=0.0.0.0 --port=8000 &
-
-    - name: Install Newman
-      run: |
-        npm install -g newman
+        sleep 5
 
     - name: Run Postman collection tests
       run: |
