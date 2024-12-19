@@ -11,8 +11,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 class ReviewService
 {
     // Create a new review.
-
-    public function createReview(array $data): Review
+    public function store(array $data): Review
     {
         $restaurant = Restaurant::findOrFail($data['restaurant_id']);
         $user = User::findOrFail($data['user_id']);
