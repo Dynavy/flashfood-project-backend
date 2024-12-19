@@ -1,0 +1,77 @@
+name: Laravel CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  # Job to run Laravel tests
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    # Cambiar el directorio al backend
+    - name: Change directory to backend
+      run: cd backend
+
+    # Set up PHP with Laravel
+    - name: Set up PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.1'
+        extensions: mbstring, xml, bcmath, sqlite3, pdo, pdo_mysql
+
+    # Instalar dependencias de Composer
+    - name: Install dependencies
+      run: |
+        cd backend
+        curl -sS https://getcomposer.org/installer | php
+        mv composer.phar /usr/local/bin/composer
+        composer install --no-interaction
+
+    # Configuración del archivo .env para pruebas
+    - name: Set up environment variables
+      run: echo "APP_ENV=testing" >> backend/.env
+
+    # Ejecutar migraciones y sembrar la base de datos
+    - name: Run migrations
+      run: |
+        cd backend
+        php artisan migrate --env=testing
+        php artisan db:seed --env=testing
+
+    # Ejecutar las pruebas de Laravel
+    - name: Run Laravel tests
+      run: |
+        cd backend
+        php artisan test
+
+  # Job to run Postman collection tests
+  postman:
+    runs-on: ubuntu-latest
+    needs: test  # Asegura que las pruebas de Laravel pasen antes de ejecutar las pruebas de Postman
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    # Cambiar al directorio backend
+    - name: Change directory to backend
+      run: cd backend
+
+    # Instalar Newman (CLI de Postman)
+    - name: Install Newman
+      run: npm install -g newman
+
+    # Ejecutar las pruebas de Postman
+    - name: Run Postman Collection Tests
+      run: |
+        cd backend
+        newman run path_to_your_postman_collection.json -e path_to_your_postman_environment.json
