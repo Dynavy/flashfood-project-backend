@@ -33,12 +33,6 @@ jobs:
         cd backend
         composer install --no-interaction
 
-    - name: Set up testing database
-      run: |
-        sudo apt-get install mysql-server
-        sudo service mysql start
-        mysql -e "CREATE DATABASE IF NOT EXISTS testing"
-
     - name: Run migrations and seed database
       run: |
         cd backend
