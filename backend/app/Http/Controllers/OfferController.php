@@ -72,7 +72,7 @@ class OfferController extends Controller
         $nameChange = $this->offerService->update($id, $validatedData);
 
         return response()->json([
-            'message' => "The offer has been successfully updated from '{$nameChange['old_name']}' to '{$nameChange['new_name']}'."
+            'message' => "The offer has been successfully updated."
         ], 200);
     }
 
