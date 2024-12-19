@@ -29,6 +29,12 @@ class Offer extends Model
         'updated_at',
     ];
 
+    /**
+     * Get the restaurant that owns the offer.
+     *
+     * This method establishes the relationship between the Offer model and 
+     * the Restaurant model, where an offer belongs to a restaurant.
+     */
     public function restaurant()
     {
         return $this->belongsTo(Restaurant::class);

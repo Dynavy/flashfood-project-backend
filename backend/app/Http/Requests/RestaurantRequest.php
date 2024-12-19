@@ -8,12 +8,13 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 
 class RestaurantRequest extends FormRequest
 {
-
+    // Allow the request to be authorized.
     public function authorize()
     {
         return true;
     }
 
+    // Define validation rules for the request data.
     public function rules(): array
     {
         $rules = [
@@ -27,6 +28,7 @@ class RestaurantRequest extends FormRequest
             'rating' => 'nullable|numeric|min:0|max:5',
         ];
 
+        // If the request is a PATCH, make some fields optional.
         if ($this->isMethod('patch')) {
             $rules['address'] = 'nullable|string|max:255';
             $rules['latitude'] = 'nullable|numeric';
@@ -38,7 +40,7 @@ class RestaurantRequest extends FormRequest
         return $rules;
     }
 
-    // Status 422  --> Server can't process the request, although it understands it.
+    // Handle validation failure and return a structured error response.
     protected function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(
@@ -49,4 +51,3 @@ class RestaurantRequest extends FormRequest
         );
     }
 }
-

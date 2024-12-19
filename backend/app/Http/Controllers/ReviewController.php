@@ -2,52 +2,74 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Review;
-use Illuminate\Http\Request;
+use App\Services\ReviewService;
+use App\Http\Requests\ReviewRequest;
 
 class ReviewController extends Controller
 {
-    // Display a listing of the reviews.
+    // Instance of ReviewService.
+    protected $reviewService;
+
+    // Inject ReviewService into the controller.
+    public function __construct(ReviewService $reviewService)
+    {
+        $this->reviewService = $reviewService;
+    }
+
+    // Retrieve and return a paginated list of all reviews.
     public function index()
     {
-        $reviews = Review::all();
-        return response()->json($reviews);
+        // Pagination in case the reviews list is large.
+        $reviews = $this->reviewService->index()->paginate(50);
+        return response()->json([
+            'message' => 'Review retrieved successfully!',
+            'status' => 'success',
+            'data' => $reviews
+        ], 200);
     }
 
-    // Store a newly created review in storage.
-    public function store(Request $request)
+    // Retrieve and return a specific review by its ID.
+    public function show($id)
     {
-        $request->validate([
-            'restaurant_id' => 'required|exists:restaurants,id',
-            'user_id' => 'required|exists:users,id',
-            'comment' => 'required|string',
-        ]);
-
-        $review = Review::create($request->all());
-        return response()->json($review, 201);
+        $review = $this->reviewService->showByID($id);
+        return response()->json([
+            'message' => 'Review retrieved successfully!',
+            'status' => 'success',
+            'data' => $review
+        ], 200);
     }
 
-    // Display the specified review.
-    public function show(Review $review)
+    // Create and store a new review.
+    public function store(ReviewRequest $request)
     {
-        return response()->json($review);
+        // Delegate the creation logic to the service layer.
+        $review = $this->reviewService->store($request->validated());
+        return response()->json([
+            'message' => 'Review created successfully!',
+            'review' => $review,
+        ], status: 201);
     }
 
-    //Update the specified review in storage.
-    public function update(Request $request, Review $review)
+    // Update a specific review by its ID.
+    public function update(ReviewRequest $request, $id)
     {
-        $request->validate([
-            'comment' => 'required|string',
-        ]);
+        $review = $this->reviewService->update($id, $request->validated());
 
-        $review->update($request->all());
-        return response()->json($review);
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Review updated successfully!',
+            'data' => $review,
+        ], status: 200);
     }
 
-    // Remove the specified review from storage.
-    public function destroy(Review $review)
+    // Delete a specific review by its ID.
+    public function destroy($id)
     {
-        $review->delete();
-        return response()->json(null, 204);
+        // Delegate the deletion logic to the service layer.
+        $reviewName = $this->reviewService->destroy($id);
+
+        return response()->json([
+            'message' => "Review $reviewName with id $id deleted successfully."
+        ], 200);
     }
 }

@@ -7,33 +7,73 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class OfferService
 {
-    // Index method on OfferController.
+    /**
+     * Retrieve all offers.
+     *
+     * This method retrieves all the offers from the database and returns them.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
     public function index()
     {
         return Offer::all();
     }
 
-    // Show method on OfferController.
+    /**
+     * Retrieve a specific offer by its ID.
+     *
+     * This method fetches an offer by its ID from the database. 
+     * If the offer doesn't exist, it throws a ModelNotFoundException.
+     *
+     * @param int $id
+     * @return Offer
+     * @throws ModelNotFoundException
+     */
     public function showByID($id)
     {
-        // throw new ModelNotFoundException("test");
         $offer = Offer::findOrFail($id);
         return $offer;
     }
 
-    // FindByName method on OfferController.
+    /**
+     * Find an offer by its name.
+     *
+     * This method searches for an offer using the 'name' attribute. 
+     * If no offer is found, it throws a ModelNotFoundException.
+     *
+     * @param string $name
+     * @return Offer
+     * @throws ModelNotFoundException
+     */
     public function findByName($name)
     {
         return Offer::where('name', $name)->firstOrFail();
     }
 
-    // Store method on OfferController.
+    /**
+     * Store a new offer in the database.
+     *
+     * This method creates and stores a new offer using the provided data.
+     *
+     * @param array $data
+     * @return Offer
+     */
     public function store(array $data)
     {
         return Offer::create($data);
     }
 
-    // Update method on OfferController.
+    /**
+     * Update an existing offer by its ID.
+     *
+     * This method finds an offer by its ID and updates it with the provided data. 
+     * It returns both the old and new titles of the offer.
+     *
+     * @param int $id
+     * @param array $data
+     * @return array
+     * @throws ModelNotFoundException
+     */
     public function update($id, array $data)
     {
         $offer = Offer::find($id);
@@ -43,14 +83,23 @@ class OfferService
 
         $oldTitle = $offer->title;
         $offer->update($data);
-        
+
         return [
             'old_title' => $oldTitle,
             'new_title' => $offer->title
         ];
     }
 
-    // Destroy method on OfferController.
+    /**
+     * Delete an offer by its ID.
+     *
+     * This method deletes an offer and returns its title before deletion. 
+     * If the offer doesn't exist, it throws a ModelNotFoundException.
+     *
+     * @param int $id
+     * @return string
+     * @throws ModelNotFoundException
+     */
     public function destroy($id)
     {
         $offer = Offer::find($id);
