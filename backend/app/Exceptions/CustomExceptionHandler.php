@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Throwable;
 
-class Handler extends ExceptionHandler
+class CustomExceptionHandler extends ExceptionHandler
 {
     public function render($request, Throwable $exception)
     {
@@ -22,19 +22,6 @@ class Handler extends ExceptionHandler
                     'details' => 'The resource you requested could not be found in the database.',
                 ],
             ], 404);
-        }
-
-        // Status 500 --> Internal server error, something went wrong on the server. 
-        if ($exception instanceof \Exception) {
-            return response()->json([
-                'status' => 'error',
-                'code' => 500,
-                'message' => 'An error occurred while processing your request.',
-                'error' => [
-                    'type' => 'Exception',
-                    'details' => 'Something went wrong on the server, please try again later.',
-                ],
-            ], 500);
         }
 
         // Status 500 --> Database query error (query exception).

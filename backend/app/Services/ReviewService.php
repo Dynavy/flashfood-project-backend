@@ -5,6 +5,8 @@ namespace App\Services;
 use App\Models\Review;
 use App\Models\Restaurant;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ReviewService
 {
@@ -23,7 +25,7 @@ class ReviewService
     }
 
     // Create a new review.
-    public function createReview(array $data): Review
+    public function store(array $data): Review
     {
         $restaurant = Restaurant::findOrFail($data['restaurant_id']);
         $user = User::findOrFail($data['user_id']);
@@ -40,16 +42,29 @@ class ReviewService
     }
 
     // Update an existing review.
-    public function updateReview(Review $review, array $data): Review
+    public function updateReview(int $id, array $data): Review
     {
+        $review = Review::findOrFail($id);
         $review->update($data);
-
         return $review;
     }
 
     // Delete a review.
-    public function deleteReview(Review $review): void
+    public function deleteReview(int $id): string
     {
-        $review->delete();
+        try {
+            DB::beginTransaction();
+
+            $review = Review::findOrFail($id);
+            $restaurantName = $review->restaurant->name;
+            $review->delete();
+
+            DB::commit();
+
+            return $restaurantName;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 }
