@@ -2,26 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Services\RestaurantService;
 use App\Http\Requests\RestaurantRequest;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-
 
 class RestaurantController extends Controller
 {
     // Instance of RestaurantService.
     protected $restaurantService;
 
-    // Inject RestaurantService.
+    // Inject RestaurantService into the controller.
     public function __construct(RestaurantService $restaurantService)
     {
         $this->restaurantService = $restaurantService;
     }
 
+    // Retrieve and return a paginated list of all restaurants.
     public function index()
     {
-        // Pagination in case the restaurant list is very large.
         $restaurants = $this->restaurantService->index()->paginate(50);
         return response()->json([
             'message' => 'Restaurants retrieved successfully!',
@@ -30,6 +27,7 @@ class RestaurantController extends Controller
         ], 200);
     }
 
+    // Retrieve and return a restaurant by its ID.
     public function show($id)
     {
         $restaurant = $this->restaurantService->showByID($id);
@@ -40,9 +38,9 @@ class RestaurantController extends Controller
         ], 200);
     }
 
+    // Search and return a restaurant by its name.
     public function findByName($name)
     {
-
         $restaurantName = $this->restaurantService->findByName($name);
         return response()->json([
             'message' => 'Restaurant retrieved successfully!',
@@ -51,10 +49,10 @@ class RestaurantController extends Controller
         ], 200);
     }
 
-    // Create a specific restaurant (create).
+    // Create and store a new restaurant.
     public function store(RestaurantRequest $request)
     {
-        // Delegate the creation logic to the service layer.
+        // Delegate creation logic to the service layer.
         $restaurant = $this->restaurantService->store($request->validated());
         return response()->json([
             'message' => 'Restaurant created successfully!',
@@ -62,12 +60,10 @@ class RestaurantController extends Controller
         ], status: 201);
     }
 
-
-    // Update a specific restaurant (update).
+    // Update a specific restaurant by its ID.
     public function update(RestaurantRequest $request, $id)
     {
         $restaurant = $this->restaurantService->update($id, $request->validated());
-
         return response()->json([
             'status' => 'success',
             'message' => 'Restaurant updated successfully!',
@@ -75,10 +71,10 @@ class RestaurantController extends Controller
         ], status: 200);
     }
 
-    // Delete a specific resource (destroy).
+    // Delete a specific restaurant by its ID.
     public function destroy($id)
     {
-        // Delegate the deletion logic to the service layer.
+        // Delegate deletion logic to the service layer.
         $restaurantName = $this->restaurantService->destroy($id);
 
         return response()->json([

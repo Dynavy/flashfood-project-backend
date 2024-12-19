@@ -8,11 +8,13 @@ use Illuminate\Contracts\Validation\Validator;
 
 class CategoryRequest extends FormRequest
 {
+    // Allow the request to be authorized.
     public function authorize(): bool
     {
         return true;
     }
 
+    // Define validation rules for the request data.
     public function rules(): array
     {
         return [
@@ -20,7 +22,7 @@ class CategoryRequest extends FormRequest
         ];
     }
 
-    // Status 422  --> Server can't process the request, although it understands it.
+    // Handle validation failure and return a structured error response.
     protected function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(

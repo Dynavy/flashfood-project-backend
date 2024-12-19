@@ -5,17 +5,17 @@ namespace App\Http\Controllers;
 use App\Services\CategoryService;
 use App\Http\Requests\CategoryRequest;
 
-
 class CategoryController extends Controller
 {
     protected $categoryService;
 
-    // Inject CategoryService.
+    // Inject the CategoryService into the controller.
     public function __construct(CategoryService $categoryService)
     {
         $this->categoryService = $categoryService;
     }
 
+    // Retrieve and return a list of all categories.
     public function index()
     {
         $categories = $this->categoryService->index();
@@ -26,6 +26,7 @@ class CategoryController extends Controller
         ], 200);
     }
 
+    // Retrieve and return a category by its ID.
     public function show($id)
     {
         $category = $this->categoryService->showByID($id);
@@ -36,7 +37,18 @@ class CategoryController extends Controller
         ], 200);
     }
 
-    // Create a specific category (create).
+    // Find and return a category by its name.
+    public function findByName($name)
+    {
+        $categoryName = $this->categoryService->findByName($name);
+        return response()->json([
+            'message' => 'Category retrieved successfully!',
+            'status' => 'success',
+            'data' => $categoryName
+        ], 200);
+    }
+
+    // Create a new category and return the created category.
     public function store(CategoryRequest $request)
     {
         // Delegate the creation logic to the service layer.
@@ -48,7 +60,7 @@ class CategoryController extends Controller
         ], 201);
     }
 
-    // Update a specific category (update).
+    // Update an existing category and return the updated information.
     public function update(CategoryRequest $request, int $id)
     {
         $validatedData = $request->validate([
@@ -62,7 +74,7 @@ class CategoryController extends Controller
         ], 200);
     }
 
-    // Delete a specific resource (destroy).
+    // Delete a category by its ID.
     public function destroy($id)
     {
         // Delegate the deletion logic to the service layer.

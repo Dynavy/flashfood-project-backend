@@ -5,17 +5,17 @@ namespace App\Http\Controllers;
 use App\Services\OfferService;
 use App\Http\Requests\OfferRequest;
 
-
 class OfferController extends Controller
 {
     protected $offerService;
 
-    // Inject CategoryService.
+    // Inject the OfferService into the controller.
     public function __construct(OfferService $offerService)
     {
         $this->offerService = $offerService;
     }
 
+    // Retrieve and return a list of all offers.
     public function index()
     {
         $offers = $this->offerService->index();
@@ -26,6 +26,7 @@ class OfferController extends Controller
         ], 200);
     }
 
+    // Retrieve and return an offer by its ID.
     public function show($id)
     {
         $offer = $this->offerService->showByID($id);
@@ -37,18 +38,10 @@ class OfferController extends Controller
         ], 200);
     }
 
+    // Find and return an offer by its name.
     public function findByName($name)
     {
-
         $offerName = $this->offerService->findByName($name);
-
-        if ($offerName->isEmpty()) {
-            return response()->json([
-                'message' => 'No offer found with that name.',
-                'status' => 'error',
-                'data' => []
-            ], 404);
-        }
 
         return response()->json([
             'message' => 'Offer retrieved successfully!',
@@ -57,7 +50,7 @@ class OfferController extends Controller
         ], 200);
     }
 
-    // Create a specific category (create).
+    // Create a new offer and return the created offer.
     public function store(OfferRequest $request)
     {
         // Delegate the creation logic to the service layer.
@@ -69,7 +62,7 @@ class OfferController extends Controller
         ], 201);
     }
 
-    // Update a specific category (update).
+    // Update an existing offer and return the updated information.
     public function update(OfferRequest $request, int $id)
     {
         $validatedData = $request->validate([
@@ -83,7 +76,7 @@ class OfferController extends Controller
         ], 200);
     }
 
-    // Delete a specific resource (destroy).
+    // Delete an offer by its ID.
     public function destroy($id)
     {
         // Delegate the deletion logic to the service layer.

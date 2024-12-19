@@ -10,6 +10,7 @@ class CategoryFactory extends Factory
     protected $model = Category::class;
 
     // Template food categories.
+    // A predefined list of food categories used to generate sample data for the application.
     private $categories = [
         'Mexican Food',
         'Chinese Food',
@@ -24,6 +25,14 @@ class CategoryFactory extends Factory
         'KFC',
     ];
 
+    /**
+     * Define the model's default state.
+     *
+     * This method generates a random category name from the predefined list and returns it as part of the category's data.
+     * It also sets the created and updated timestamps.
+     *
+     * @return array
+     */
     public function definition(): array
     {
         // Select a unique category index from the $categories array, ensuring no duplicates are selected by keeping track of previously used indices.  

@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('restaurant_id');
             $table->unsignedBigInteger('user_id');
             $table->text('comment');
+            $table->unsignedInteger('likes')->default(0);
             $table->timestamps();
 
             $table->foreign('restaurant_id')
