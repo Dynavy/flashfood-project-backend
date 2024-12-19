@@ -45,4 +45,5 @@ jobs:
 
     - name: Run Postman collection tests
       run: |
+        cd backend
         newman run FlashFoods.postman_collection.json --env-var "BASE_URL=http://localhost" --global-var "ENV=testing"
