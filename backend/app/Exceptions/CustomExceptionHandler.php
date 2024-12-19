@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Throwable;
 
-class Handler extends ExceptionHandler
+class CustomExceptionHandler extends ExceptionHandler
 {
     public function render($request, Throwable $exception)
     {
@@ -24,6 +24,14 @@ class Handler extends ExceptionHandler
             ], 404);
         }
 
+        // Status 500 --> Database query error (query exception).
+        if ($exception instanceof QueryException) {
+            return response()->json([
+                'message' => 'Database query error.',
+                'error' => 'An issue occurred with the database query. Please try again later.',
+            ], 500);
+        }
+
         // Status 500 --> Internal server error, something went wrong on the server. 
         if ($exception instanceof \Exception) {
             return response()->json([
@@ -34,14 +42,6 @@ class Handler extends ExceptionHandler
                     'type' => 'Exception',
                     'details' => 'Something went wrong on the server, please try again later.',
                 ],
-            ], 500);
-        }
-
-        // Status 500 --> Database query error (query exception).
-        if ($exception instanceof QueryException) {
-            return response()->json([
-                'message' => 'Database query error.',
-                'error' => 'An issue occurred with the database query. Please try again later.',
             ], 500);
         }
 
