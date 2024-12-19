@@ -8,8 +8,21 @@ use App\Models\User;
 
 class ReviewService
 {
-    // Create a new review.
+    // Index method on ReviewController.
+    public function index()
+    {
+        return Review::query();
+    }
 
+    // Show method on ReviewController.
+    public function showByID($id)
+    {
+        // throw new ModelNotFoundException("test");
+        $review = Review::findOrFail($id);
+        return $review;
+    }
+
+    // Create a new review.
     public function createReview(array $data): Review
     {
         $restaurant = Restaurant::findOrFail($data['restaurant_id']);
