@@ -33,13 +33,22 @@ jobs:
         cd backend
         composer install --no-interaction
 
-    - name: Run migrations
+    - name: Set up testing database
+      run: |
+        sudo apt-get install mysql-server
+        sudo service mysql start
+        mysql -e "CREATE DATABASE IF NOT EXISTS testing"
+
+    - name: Run migrations and seed database
       run: |
         cd backend
         php artisan migrate --env=testing
         php artisan db:seed --env=testing
 
-    - name: Run Laravel tests
+    - name: Install Newman
       run: |
-        cd backend
-        php artisan test
+        npm install -g newman
+
+    - name: Run Postman collection tests
+      run: |
+        newman run FlashFoods.postman_collection.json --env-var "BASE_URL=http://localhost" --global-var "ENV=testing"
