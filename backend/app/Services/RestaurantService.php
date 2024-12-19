@@ -56,10 +56,7 @@ class RestaurantService
 
         } catch (\Exception $e) {
             DB::rollBack();
-
-            \Log::error('Error when deleting a restaurant: ' . $e->getMessage());
-
-            return response()->json(['error' => 'Error deleting the restaurant.'], 500);
+            throw $e;
         }
     }
 }
