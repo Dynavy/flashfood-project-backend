@@ -10,6 +10,20 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ReviewService
 {
+    // Index method on ReviewController.
+    public function index()
+    {
+        return Review::query();
+    }
+
+    // Show method on ReviewController.
+    public function showByID($id)
+    {
+        // throw new ModelNotFoundException("test");
+        $review = Review::findOrFail($id);
+        return $review;
+    }
+
     // Create a new review.
     public function store(array $data): Review
     {
