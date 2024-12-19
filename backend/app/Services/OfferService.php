@@ -78,7 +78,7 @@ class OfferService
     {
         $offer = Offer::findOrFail($id);
         $offer->update($data);
-        return $restaurant;
+        return $offer;
     }
 
     /**
