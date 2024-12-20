@@ -42,19 +42,24 @@ jobs:
       run: |
         npm install -g newman
 
+    - name: Start Laravel server
+      run: |
+        cd backend
+        php artisan serve --host=0.0.0.0 --port=8000 &
+        sleep 5 # Ajusta el tiempo de espera si es necesario
+
     - name: Run migrations and seed database
       run: |
         cd backend
         php artisan migrate --env=testing
         php artisan db:seed --env=testing
 
-    - name: Start Laravel server
+    - name: Run Laravel tests
       run: |
         cd backend
-        php artisan serve --host=0.0.0.0 --port=8000 &
-        sleep 5
+        php artisan test --env=testing
 
     - name: Run Postman collection tests
       run: |
         cd backend
-        newman run FlashFoods.postman_collection.json --env-var "BASE_URL=http://localhost" --global-var "ENV=testing"
+        newman run FlashFoods.postman_collection.json --env-var "BASE_URL=http://localhost:8000" --global-var "ENV=testing"
