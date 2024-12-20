@@ -28,9 +28,10 @@ jobs:
         curl -sS https://getcomposer.org/installer | php
         mv composer.phar /usr/local/bin/composer
 
-    - name: Install dependencies
+    - name: Clear Composer cache and install dependencies
       run: |
         cd backend
+        composer clear-cache
         composer install --no-interaction
 
     - name: Set up Node.js
@@ -41,6 +42,23 @@ jobs:
     - name: Install Newman
       run: |
         npm install -g newman
+
+    - name: Set up environment variables
+      run: |
+        echo "APP_ENV=testing" >> backend/.env.testing
+        echo "DB_CONNECTION=sqlite" >> backend/.env.testing
+        echo "DB_DATABASE=:memory:" >> backend/.env.testing
+        echo "MAIL_MAILER=array" >> backend/.env.testing
+        echo "QUEUE_CONNECTION=sync" >> backend/.env.testing
+        echo "SESSION_DRIVER=array" >> backend/.env.testing
+
+    - name: Wait for Laravel server to be ready
+      run: |
+        apt-get install -y netcat
+        until nc -z localhost 8000; do
+          echo "Waiting for Laravel server to be available..."
+          sleep 2
+        done
 
     - name: Start Laravel server
       run: |
