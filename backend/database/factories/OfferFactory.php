@@ -37,4 +37,26 @@ class OfferFactory extends Factory
             'valid_until' => $this->faker->date(), // Generate a random valid-until date.
         ];
     }
+
+    /**
+     * Create a fixed offer for consistent testing.
+     *
+     * This method ensures that specific offers always exist for testing purposes.
+     *
+     * @param array $attributes
+     * @return static
+     */
+    public function fixedOffer(array $attributes): self
+    {
+        return $this->state(fn() => array_merge([
+            'restaurant_id' => $attributes['restaurant_id'],
+            'name' => $attributes['name'],
+            'description' => $attributes['description'],
+            'popularity' => $attributes['popularity'] ?? 0,
+            'status' => $attributes['status'] ?? 'active',
+            'valid_from' => $attributes['valid_from'] ?? now(),
+            'valid_until' => $attributes['valid_until'] ?? now()->addDays(7),
+        ], $attributes));
+    }
+
 }

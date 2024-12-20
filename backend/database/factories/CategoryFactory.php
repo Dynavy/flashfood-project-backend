@@ -44,4 +44,21 @@ class CategoryFactory extends Factory
             'updated_at' => now(),
         ];
     }
+
+    /**
+     * Create a fixed category for consistent testing.
+     *
+     * This method ensures that specific categories always exist for testing purposes.
+     *
+     * @param string $name
+     * @return static
+     */
+    public function fixedCategory(string $name): self
+    {
+        return $this->state(fn() => [
+            'name' => $name,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+    }
 }

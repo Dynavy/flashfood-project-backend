@@ -12,6 +12,11 @@ class OfferTableSeeder extends Seeder
      */
     public function run()
     {
+        Offer::factory()->fixedOffer([
+            'restaurant_id' => 1,
+            'name' => 'Test Offer',
+            'description' => 'This is a fixed test offer for consistent testing.',
+        ])->create();
         Offer::factory(50)->create();
     }
 }
