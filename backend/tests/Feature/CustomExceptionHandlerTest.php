@@ -3,11 +3,12 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class CustomExceptionHandlerTest extends TestCase
 {
 
-    /** @test */
+    #[Test]
     public function it_returns_custom_message_for_authentication_exception()
     {
         $response = $this->get('/test/401');
@@ -24,7 +25,7 @@ class CustomExceptionHandlerTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_custom_message_for_authorization_exception()
     {
         $response = $this->get('/test/403');
@@ -41,7 +42,7 @@ class CustomExceptionHandlerTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_custom_message_for_model_not_found_exception()
     {
         $response = $this->get('/test/404');
@@ -58,7 +59,7 @@ class CustomExceptionHandlerTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_custom_message_for_query_exception()
     {
         // Forcing a QueryException by sending invalid query parameters.
@@ -76,7 +77,7 @@ class CustomExceptionHandlerTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_custom_message_for_too_many_requests_exception()
     {
 
@@ -93,5 +94,4 @@ class CustomExceptionHandlerTest extends TestCase
             ],
         ]);
     }
-
 }
