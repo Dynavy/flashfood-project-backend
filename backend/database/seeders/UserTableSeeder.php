@@ -13,7 +13,12 @@ class UserTableSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create 10 users
+        User::factory()->create([
+            'name' => 'Admin User',
+            'email' => 'admin@example.com',
+            'password' => bcrypt('password123'),
+        ]);
+
         User::factory()->count(10)->create();
     }
 }
