@@ -1,11 +1,16 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\FavoriteController;
 use Illuminate\Support\Facades\Route;
+
+// USER ROUTES:        
+Route::resource('users', UserController::class);
+Route::get('users/search/{name}', [UserController::class, 'findByName']);
 
 // CATEGORIES ROUTES:
 Route::resource('categories', CategoryController::class);
