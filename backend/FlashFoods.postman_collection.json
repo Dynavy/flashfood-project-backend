@@ -148,7 +148,7 @@
 					"response": []
 				},
 				{
-					"name": "Delete Offer",
+					"name": "Delete Offer by ID",
 					"request": {
 						"method": "DELETE",
 						"header": [],
@@ -348,7 +348,7 @@
 					"response": []
 				},
 				{
-					"name": "Delete Categories",
+					"name": "Delete Categories by ID",
 					"request": {
 						"method": "DELETE",
 						"header": [],
@@ -489,7 +489,7 @@
 					"response": []
 				},
 				{
-					"name": "Delete Review",
+					"name": "Delete Review by ID",
 					"request": {
 						"method": "DELETE",
 						"header": [],
@@ -655,7 +655,7 @@
 					"response": []
 				},
 				{
-					"name": "Delete Restaurant",
+					"name": "Delete Restaurant  by ID",
 					"request": {
 						"method": "DELETE",
 						"header": [],
@@ -822,7 +822,7 @@
 					"response": []
 				},
 				{
-					"name": "Delete User",
+					"name": "Delete User by ID",
 					"request": {
 						"method": "DELETE",
 						"header": [],
@@ -839,6 +839,148 @@
 							"path": [
 								"api",
 								"users",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Favorites",
+			"item": [
+				{
+					"name": "Get all Favorites",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/favorites",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"favorites"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Favorite",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"name\": \"Test\",\r\n        \"email\": \"test@example.com\",\r\n        \"password\": \"password123\",\r\n        \"password_confirmation\": \"password123\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/favorites/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"favorites",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Favorite by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/users/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Favorite by ID",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"restaurant_id\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/favorites/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"favorites",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Favorite by ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/favorites/2",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"favorites",
 								"2"
 							]
 						}
