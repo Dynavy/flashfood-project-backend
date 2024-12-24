@@ -53,14 +53,18 @@ cd flashfood-project-backend
 composer install
 ```
 4. Ensure `php.ini` has ZIP extension enabled for proper dependency installation:
+   
+    <br>
      - Path example: `C:\xampp\php\php.ini` (adjust based on your setup).
-5. Configure the `.env` file with your database credentials and other required environment variables:
+<br>
+       
+6. Configure the `.env` file with your database credentials and other required environment variables:
 ```
 cp .env.example .env
 
 php artisan key:generate
 ```
-7. Run migrations to set up the database structure:
+6. Run migrations to set up the database structure:
 ```
 php artisan migrate
 ```
