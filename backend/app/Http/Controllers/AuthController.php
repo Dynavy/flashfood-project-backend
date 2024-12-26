@@ -8,7 +8,7 @@ use Illuminate\Http\JsonResponse;
 
 class AuthController extends Controller
 {
-    public function __construct(private AuthService $authService) 
+    public function __construct(private AuthService $authService)
     {
         $this->authService = $authService;
     }
@@ -18,7 +18,7 @@ class AuthController extends Controller
         $user = $this->authService->register($request->validated());
 
         return response()->json([
-            'message' => 'Usuario registrado exitosamente',
+            'message' => 'User registered successfully.',
             'user' => $user,
         ], 201);
     }
