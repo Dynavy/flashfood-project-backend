@@ -23,4 +23,13 @@ class AuthRequest extends FormRequest
             'password' => 'required|string|min:8|max:255|confirmed',
         ];
     }
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(
+            response()->json([
+                'message' => 'The given data was invalid.',
+                'errors' => $validator->errors(),
+            ], 422)
+        );
+    }
 }
