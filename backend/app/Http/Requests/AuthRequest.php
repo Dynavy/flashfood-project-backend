@@ -11,7 +11,7 @@ class AuthRequest extends FormRequest
     // Allow the request to be authorized.
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     // Define validation rules for the request data.
@@ -20,7 +20,7 @@ class AuthRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
+            'password' => 'required|string|min:8|max:255|confirmed',
         ];
     }
 }
