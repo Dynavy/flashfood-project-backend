@@ -14,8 +14,8 @@ class AuthRequest extends FormRequest
         return true;
     }
 
-    // Define validation rules for the request data.
-    public function rules()
+    // Define validation rules for the register data.
+    public function registerRules()
     {
         return [
             'name' => 'required|string|max:255',
@@ -23,6 +23,17 @@ class AuthRequest extends FormRequest
             'password' => 'required|string|min:8|max:255|confirmed',
         ];
     }
+
+    // Define validation rules for the login data.
+    public function loginRules()
+    {
+        return [
+            'email' => 'required|string|email|max:255|exists:users,email',
+            'password' => 'required|string|min:8|max:255',
+        ];
+    }
+
+    // Handle validation failure and return a structured error response.
     protected function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(
