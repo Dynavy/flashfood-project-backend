@@ -8,31 +8,42 @@ use Illuminate\Http\JsonResponse;
 
 class AuthController extends Controller
 {
-    public function __construct(private AuthService $authService)
-    {
-        $this->authService = $authService;
-    }
+    public function __construct(private AuthService $authService) {}
 
     public function register(AuthRequest $request): JsonResponse
     {
+        // Validate registration data.
         $validatedData = $request->validate($request->registerRules());
 
-        $user = $this->authService->register($validatedData);
+        $result = $this->authService->register($validatedData);
+
         return response()->json([
             'message' => 'User registered successfully.',
-            'user' => $user,
+            'user' => $result['user'],
+            'token' => $result['token'],
         ], 201);
     }
 
     public function login(AuthRequest $request): JsonResponse
     {
+        // Validate login data.
         $validatedData = $request->validate($request->loginRules());
 
-        $user = $this->authService->login($validatedData);
+        $result = $this->authService->login($validatedData);
 
         return response()->json([
             'message' => 'User logged successfully.',
-            'user' => $user,
-        ], 201);
+            'user' => $result['user'],
+            'token' => $result['token'],
+        ], 200);
+    }
+
+    public function logout(): JsonResponse
+    {
+        $this->authService->logout();
+
+        return response()->json([
+            'message' => 'User logged out successfully.',
+        ], 200);
     }
 }
