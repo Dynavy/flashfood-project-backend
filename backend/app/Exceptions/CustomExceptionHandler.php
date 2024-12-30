@@ -5,7 +5,6 @@ namespace App\Exceptions;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
-use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
@@ -16,14 +15,14 @@ class CustomExceptionHandler extends ExceptionHandler
     public function render($request, Throwable $exception)
     {
         // Status 400 --> Bad Request.
-        if ($exception instanceof \InvalidArgumentException) {
+        if ($request->header('Content-Type') !== 'application/json' || $exception instanceof \InvalidArgumentException) {
             return response()->json([
                 'status' => 'error',
                 'code' => 400,
                 'message' => 'Bad request.',
                 'error' => [
                     'type' => 'InvalidArgumentException',
-                    'details' => 'The request cannot be processed due to invalid input.',
+                    'details' => 'The request cannot be processed due to invalid input. Ensure Content-Type has application/json (POSTMAN).',
                 ],
             ], 400);
         }
@@ -33,7 +32,7 @@ class CustomExceptionHandler extends ExceptionHandler
             return response()->json([
                 'status' => 'error',
                 'code' => 401,
-                'message' => 'Unauthorized.',
+                'message' => 'Invalid Credentials.',
                 'error' => [
                     'type' => 'AuthenticationException',
                     'details' => 'You need to authenticate to access this resource.',
