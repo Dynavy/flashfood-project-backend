@@ -7,13 +7,8 @@ use App\Http\Requests\OfferRequest;
 
 class OfferController extends Controller
 {
-    protected $offerService;
-
     // Inject the OfferService into the controller.
-    public function __construct(OfferService $offerService)
-    {
-        $this->offerService = $offerService;
-    }
+    public function __construct(private OfferService $offerService) {}
 
     // Retrieve and return a list of all offers.
     public function index()

@@ -7,14 +7,8 @@ use App\Http\Requests\ReviewRequest;
 
 class ReviewController extends Controller
 {
-    // Instance of ReviewService.
-    protected $reviewService;
-
     // Inject ReviewService into the controller.
-    public function __construct(ReviewService $reviewService)
-    {
-        $this->reviewService = $reviewService;
-    }
+    public function __construct(private ReviewService $reviewService) {}
 
     // Retrieve and return a paginated list of all reviews.
     public function index()

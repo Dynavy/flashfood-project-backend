@@ -7,13 +7,8 @@ use App\Http\Requests\CategoryRequest;
 
 class CategoryController extends Controller
 {
-    protected $categoryService;
-
     // Inject the CategoryService into the controller.
-    public function __construct(CategoryService $categoryService)
-    {
-        $this->categoryService = $categoryService;
-    }
+    public function __construct(private CategoryService $categoryService) {}
 
     // Retrieve and return a list of all categories.
     public function index()

@@ -7,14 +7,8 @@ use App\Http\Requests\UserRequest;
 
 class UserController extends Controller
 {
-    // Instance of UserService.
-    protected $userService;
-
     // Inject UserService into the controller.
-    public function __construct(UserService $userService)
-    {
-        $this->userService = $userService;
-    }
+    public function __construct(private UserService $userService) {}
 
     // Retrieve and return a paginated list of all users.
     public function index()
