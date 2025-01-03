@@ -57,6 +57,7 @@ class User extends Authenticatable
         ];
     }
 
+    //  Automatically hash the password before saving it to the database.
     public function setPasswordAttribute(string $value): void
     {
         $this->attributes['password'] = Hash::make($value);
