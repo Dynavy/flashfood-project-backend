@@ -7,14 +7,8 @@ use App\Http\Requests\FavoriteRequest;
 
 class FavoriteController extends Controller
 {
-    // Instance of FavoriteService.
-    protected $favoriteService;
-
     // Inject FavoriteService into the controller.
-    public function __construct(FavoriteService $favoriteService)
-    {
-        $this->favoriteService = $favoriteService;
-    }
+    public function __construct(private FavoriteService $favoriteService) {}
 
     // Retrieve and return a list of all favorites.
     public function index()

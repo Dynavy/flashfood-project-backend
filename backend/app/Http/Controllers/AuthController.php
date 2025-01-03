@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 
 class AuthController extends Controller
 {
+    // Inject the CategoryService into the controller.
     public function __construct(private AuthService $authService) {}
 
     public function register(AuthRequest $request): JsonResponse

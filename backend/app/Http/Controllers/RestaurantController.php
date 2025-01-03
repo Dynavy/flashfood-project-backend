@@ -7,14 +7,8 @@ use App\Http\Requests\RestaurantRequest;
 
 class RestaurantController extends Controller
 {
-    // Instance of RestaurantService.
-    protected $restaurantService;
-
     // Inject RestaurantService into the controller.
-    public function __construct(RestaurantService $restaurantService)
-    {
-        $this->restaurantService = $restaurantService;
-    }
+    public function __construct(private RestaurantService $restaurantService) {}
 
     // Retrieve and return a paginated list of all restaurants.
     public function index()
