@@ -32,7 +32,7 @@ The system includes robust filtering options for different food categories such 
 - **Backend**:
   - PHP 8.0 or higher with Composer installed.
   - MySQL 8.0 or compatible version.
-  - Laravel Framework.
+  - Laravel 11 Framework.
 - **Frontend**:
   - Node.js and npm/yarn for dependency management.
   - Vue.js framework.
