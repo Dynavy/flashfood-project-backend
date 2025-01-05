@@ -32,6 +32,7 @@ class ResetPasswordRequest extends FormRequest
         ];
     }
 
+    // Handle validation failure and return a structured error response.
     protected function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(
