@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\EmailValidationRequest;
-use App\Services\ForgotPasswordService;
+use App\Services\Auth\ForgotPasswordService;
 
 
 class ForgotPasswordController extends Controller

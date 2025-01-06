@@ -1,10 +1,8 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Category;
 
 use App\Models\Category;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
 
 class CategoryService
 {

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\FavoriteService;
+use App\Services\User\FavoriteService;
 use App\Http\Requests\FavoriteRequest;
 
 class FavoriteController extends Controller

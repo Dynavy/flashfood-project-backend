@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Restaurant;
 
 use App\Models\Offer;
 use Illuminate\Database\Eloquent\ModelNotFoundException;

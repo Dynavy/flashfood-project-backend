@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\OfferService;
+use App\Services\Restaurant\OfferService;
 use App\Http\Requests\OfferRequest;
 
 class OfferController extends Controller
