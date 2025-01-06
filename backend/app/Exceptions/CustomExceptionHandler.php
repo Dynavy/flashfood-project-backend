@@ -13,7 +13,7 @@ use Throwable;
 
 class CustomExceptionHandler extends ExceptionHandler
 {
-    public function render($request, Throwable $exception)
+    public function render($request, Throwable $exception): \Symfony\Component\HttpFoundation\Response
     {
         // Status 400 (No Content-Type on header)--> Bad Request.
         if ($request->isMethod('POST') && $request->header('Content-Type') !== 'application/json') {
