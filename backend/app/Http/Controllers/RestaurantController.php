@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\RestaurantService;
+use App\Services\Restaurant\RestaurantService;
 use App\Http\Requests\RestaurantRequest;
 
 class RestaurantController extends Controller

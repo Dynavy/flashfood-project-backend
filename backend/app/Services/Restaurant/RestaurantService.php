@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Restaurant;
 
 use App\Models\Restaurant;
 use Illuminate\Support\Facades\DB;
@@ -102,7 +102,6 @@ class RestaurantService
 
             DB::commit();
             return $restaurantName;
-
         } catch (\Exception $e) {
             DB::rollBack();
             throw $e;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Review;
 
 use App\Models\Review;
 use App\Models\Restaurant;
