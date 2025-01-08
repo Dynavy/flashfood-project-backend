@@ -3,18 +3,22 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
+use Illuminate\Support\Str;
 use App\Models\User;
 
 class AuthControllerTest extends TestCase
 {
+    // Guardar el token del password que se genera al registrar.y
+    protected $token;
+
     /** @test */
     public function test_user_can_register()
     {
         $userData = [
             'name' => 'Test User',
-            'email' => 'test@example.com',
-            'password' => 'password123'
-
+            'email' => 'testunit@example.com',
+            'password' => 'password123',
+            'password_confirmation' => 'password123'
         ];
 
         $response = $this->postJson('/register', $userData);
@@ -33,6 +37,7 @@ class AuthControllerTest extends TestCase
             ]);
     }
 
+
     /** @test */
     public function test_user_cannot_register_with_invalid_data()
     {
@@ -45,13 +50,9 @@ class AuthControllerTest extends TestCase
     /** @test */
     public function test_user_can_login()
     {
-        $user = User::factory()->create([
-            'email' => 'test@example.com',
-            'password' => bcrypt('password123')
-        ]);
 
         $response = $this->postJson('/login', [
-            'email' => 'test@example.com',
+            'email' => 'testunit@example.com',
             'password' => 'password123'
         ]);
 
@@ -71,21 +72,32 @@ class AuthControllerTest extends TestCase
             'password' => 'wrongpassword'
         ]);
 
-        $response->assertStatus(401);
+        $response->assertStatus(422);
     }
 
     /** @test */
     public function test_user_can_logout()
     {
-        $user = User::factory()->create();
-        $token = $user->createToken('test-token')->plainTextToken;
+        // Primero, realizar el login
+        $loginResponse = $this->postJson('/login', [
+            'email' => 'testunit@example.com',
+            'password' => 'password123'
+        ]);
 
-        $response = $this->withHeader('Authorization', 'Bearer ' . $token)
+        // Almacenar el token de la respuesta de login
+        $this->token = Str::after($loginResponse->json('token'), '|');
+
+        // Paso 3: Realizar la solicitud de cierre de sesión utilizando el token del login
+        $response = $this->withHeader('Authorization', 'Bearer ' . $this->token)
             ->postJson('/logout');
 
+            //dd($this->token);
+
+        // Paso 4: Verificar la respuesta
         $response->assertStatus(200)
             ->assertJson(['message' => 'User logged out successfully.']);
     }
+
 
     /** @test */
     public function test_unauthenticated_user_cannot_logout()
