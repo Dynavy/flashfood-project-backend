@@ -1,14 +1,14 @@
 <?php
 
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\RestaurantController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\ReviewController;
-use App\Http\Controllers\OfferController;
-use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\User\FavoriteController;
+use App\Http\Controllers\Restaurant\RestaurantController;
+use App\Http\Controllers\Restaurant\OfferController;
+use App\Http\Controllers\Restaurant\CategoryController;
+use App\Http\Controllers\Review\ReviewController;
 use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\ForgotPasswordController;
-use App\Http\Controllers\ResetPasswordController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 use Illuminate\Support\Facades\Route;
 
 // USER ROUTES:        
