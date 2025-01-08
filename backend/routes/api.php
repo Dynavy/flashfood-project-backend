@@ -34,9 +34,9 @@ Route::get('offers/search/{name}', [OfferController::class, 'findByName']);
 Route::apiResource('favorites', FavoriteController::class);
 
 // AUTH ROUTES (REGISTER, LOGIN, LOGOUT):
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
-Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+Route::post('register', [AuthController::class, 'register']);
+Route::post('login', [AuthController::class, 'login']);
+Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 
 // PASSWORD RECOVER ROUTES (FORGOTPASSWOWRD, RESETPASSWORD):
 Route::post('forgot-password', [ForgotPasswordController::class, 'sendResetLink']);
