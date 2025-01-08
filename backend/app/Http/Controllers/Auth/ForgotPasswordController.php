@@ -1,15 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
 use App\Http\Requests\EmailValidationRequest;
 use App\Services\Auth\ForgotPasswordService;
+use App\Http\Controllers\Controller;
 
 
 class ForgotPasswordController extends Controller
 {
     // Inject the ForgotPasswordService into the controller
-    public function __construct(private ForgotPasswordService $forgotPasswordService) {}
+    public function __construct(private ForgotPasswordService $forgotPasswordService)
+    {
+    }
 
     public function sendResetLink(EmailValidationRequest $request)
     {

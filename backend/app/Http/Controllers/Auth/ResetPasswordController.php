@@ -1,15 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
 use App\Http\Requests\ResetPasswordRequest;
+use App\Http\Controllers\Controller;
 use App\Services\Auth\ResetPasswordService;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
 class ResetPasswordController extends Controller
 {
-    public function __construct(private ResetPasswordService $resetPasswordService) {}
+    public function __construct(private ResetPasswordService $resetPasswordService)
+    {
+    }
 
     public function showResetForm(Request $request, $token)
     {

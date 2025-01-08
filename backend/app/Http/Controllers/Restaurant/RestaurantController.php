@@ -1,14 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Restaurant;
 
 use App\Services\Restaurant\RestaurantService;
 use App\Http\Requests\RestaurantRequest;
+use App\Http\Controllers\Controller;
 
 class RestaurantController extends Controller
 {
     // Inject RestaurantService into the controller.
-    public function __construct(private RestaurantService $restaurantService) {}
+    public function __construct(private RestaurantService $restaurantService)
+    {
+    }
 
     // Retrieve and return a paginated list of all restaurants.
     public function index()

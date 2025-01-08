@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Requests\AuthRequest;
 use App\Services\Auth\AuthService;
 use Illuminate\Http\JsonResponse;
-
 use App\Http\Controllers\Controller;
 
 class AuthController extends Controller
