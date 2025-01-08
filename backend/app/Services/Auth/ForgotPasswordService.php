@@ -10,6 +10,7 @@ class ForgotPasswordService
     public function sendResetLink(string $email): array
     {
         try {
+            // Sends a password reset link to the provided email address, generating a token automatically and passing it directly to the User model via the notification.
             $status = Password::sendResetLink(['email' => $email]);
 
             return [
