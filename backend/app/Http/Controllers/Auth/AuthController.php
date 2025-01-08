@@ -1,15 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
 use App\Http\Requests\AuthRequest;
 use App\Services\Auth\AuthService;
 use Illuminate\Http\JsonResponse;
 
+use App\Http\Controllers\Controller;
+
 class AuthController extends Controller
 {
     // Inject the CategoryService into the controller.
-    public function __construct(private AuthService $authService) {}
+    public function __construct(private AuthService $authService)
+    {
+    }
 
     public function register(AuthRequest $request): JsonResponse
     {
