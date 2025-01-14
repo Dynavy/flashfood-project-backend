@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FlashFoods Password Reset</title>
-    <link href="{{ asset('css/reset-password-email.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/resetLinkEmail.css') }}" rel="stylesheet">
 </head>
 
 <body>
@@ -15,7 +15,8 @@
 
     <div class="content">
         <h1 class="title">Restablecer contraseña</h1>
-        <p class="message">Hemos recibido una solicitud para restablecer tu contraseña. Haz clic en el siguiente enlace para crear una nueva contraseña:</p>
+        <p class="message">Hemos recibido una solicitud para restablecer tu contraseña. Haz clic en el siguiente enlace
+            para crear una nueva contraseña:</p>
         <p>
             <a href="{{ $actionUrl }}" class="button">
                 Click para restablecer tu contraseña
