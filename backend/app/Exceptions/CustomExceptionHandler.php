@@ -15,22 +15,6 @@ class CustomExceptionHandler extends ExceptionHandler
 {
     public function render($request, Throwable $exception): \Symfony\Component\HttpFoundation\Response
     {
-        // Status 400 (No Content-Type on header)--> Bad Request.
-        if ($request->isMethod('POST') && $request->header('Content-Type') !== 'application/json') {
-            return response()->json(
-                [
-                    'status' => 'error',
-                    'code' => 400,
-                    'message' => 'Invalid Content-Type.',
-                    'error' => [
-                        'type' => 'InvalidContentType',
-                        'details' => 'The request must use application/json Content-Type header.',
-                    ],
-                ],
-                400
-            );
-        }
-
         // Status 400 --> Bad Request
         if ($exception instanceof InvalidArgumentException) {
             return response()->json(
@@ -56,7 +40,7 @@ class CustomExceptionHandler extends ExceptionHandler
                     'message' => 'Unauthorized.',
                     'error' => [
                         'type' => 'AuthenticationException',
-                        'details' => 'You need to authenticate to access this resource.',
+                        'details' => 'The provided username or password is incorrect.',
                     ],
                 ],
                 401
