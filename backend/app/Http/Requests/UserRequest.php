@@ -23,7 +23,6 @@ class UserRequest extends FormRequest
       'password' => 'sometimes|string|min:8|confirmed',
     ];
 
-
     if ($this->isMethod('patch')) {
       $rules['password'] = 'nullable|string|min:8|confirmed';
     }
