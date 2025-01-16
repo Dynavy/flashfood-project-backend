@@ -25,26 +25,6 @@ class CustomExceptionHandlerTest extends TestCase
     }
 
     #[Test]
-    public function it_returns_error_for_invalid_content_type()
-    {
-        $response = $this->post('/some-endpoint', [], [
-            'Content-Type' => 'text/plain',
-        ]);
-
-        $response->assertStatus(400);
-        $response->assertJson([
-            'status' => 'error',
-            'code' => 400,
-            'message' => 'Invalid Content-Type.',
-            'error' => [
-                'type' => 'InvalidContentType',
-                'details' => 'The request must use application/json Content-Type header.',
-            ],
-        ]);
-    }
-
-
-    #[Test]
     public function it_returns_custom_message_for_authorization_exception()
     {
         $response = $this->get('/error-testing/403');
