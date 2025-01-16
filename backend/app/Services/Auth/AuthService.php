@@ -3,7 +3,9 @@
 namespace App\Services\Auth;
 
 use App\Models\User;
+use App\Mail\WelcomeEmail;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Auth\AuthenticationException;
 
 class AuthService
@@ -17,7 +19,8 @@ class AuthService
             'password' => $data['password'],
         ]);
 
-        // // Generates a token for the user to avoid a second petition (login).
+        Mail::to($user->email)->send(new WelcomeEmail($user));
+
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return [
