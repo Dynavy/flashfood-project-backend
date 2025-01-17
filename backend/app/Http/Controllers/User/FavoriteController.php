@@ -1,14 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
-use App\Services\FavoriteService;
+use App\Services\User\FavoriteService;
 use App\Http\Requests\FavoriteRequest;
+use App\Http\Controllers\Controller;
 
 class FavoriteController extends Controller
 {
     // Inject FavoriteService into the controller.
-    public function __construct(private FavoriteService $favoriteService) {}
+    public function __construct(private FavoriteService $favoriteService)
+    {
+    }
 
     // Retrieve and return a list of all favorites.
     public function index()

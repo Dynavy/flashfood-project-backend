@@ -7,11 +7,10 @@ use PHPUnit\Framework\Attributes\Test;
 
 class CustomExceptionHandlerTest extends TestCase
 {
-
     #[Test]
     public function it_returns_custom_message_for_authentication_exception()
     {
-        $response = $this->get('/test/401');
+        $response = $this->get('/error-testing/401');
 
         $response->assertStatus(401);
         $response->assertJson([
@@ -28,7 +27,7 @@ class CustomExceptionHandlerTest extends TestCase
     #[Test]
     public function it_returns_custom_message_for_authorization_exception()
     {
-        $response = $this->get('/test/403');
+        $response = $this->get('/error-testing/403');
 
         $response->assertStatus(403);
         $response->assertJson([
@@ -45,7 +44,7 @@ class CustomExceptionHandlerTest extends TestCase
     #[Test]
     public function it_returns_custom_message_for_model_not_found_exception()
     {
-        $response = $this->get('/test/404');
+        $response = $this->get('/error-testing/404');
 
         $response->assertStatus(404);
         $response->assertJson([
@@ -60,28 +59,9 @@ class CustomExceptionHandlerTest extends TestCase
     }
 
     #[Test]
-    public function it_returns_custom_message_for_query_exception()
-    {
-        // Forcing a QueryException by sending invalid query parameters.
-        $response = $this->get('/invalid-query');
-
-        $response->assertStatus(500);
-        $response->assertJson([
-            'status' => 'error',
-            'code' => 500,
-            'message' => 'Database query error.',
-            'error' => [
-                'type' => 'QueryException',
-                'details' => 'An issue occurred with the database query. Please try again later.',
-            ],
-        ]);
-    }
-
-    #[Test]
     public function it_returns_custom_message_for_too_many_requests_exception()
     {
-
-        $response = $this->get('/test/429');
+        $response = $this->get('/error-testing/429');
 
         $response->assertStatus(429);
         $response->assertJson([
@@ -91,6 +71,23 @@ class CustomExceptionHandlerTest extends TestCase
             'error' => [
                 'type' => 'TooManyRequestsHttpException',
                 'details' => 'You have exceeded the rate limit. Please try again later.',
+            ],
+        ]);
+    }
+
+    #[Test]
+    public function it_returns_custom_message_for_query_exception()
+    {
+        $response = $this->get('/error-testing/database-error');
+
+        $response->assertStatus(500);
+        $response->assertJson([
+            'status' => 'error',
+            'code' => 500,
+            'message' => 'Database query error.',
+            'error' => [
+                'type' => 'QueryException',
+                'details' => 'An issue occurred with the database query. Please try again later.',
             ],
         ]);
     }

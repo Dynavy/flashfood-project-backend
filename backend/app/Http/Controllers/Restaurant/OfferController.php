@@ -1,14 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Restaurant;
 
-use App\Services\OfferService;
+use App\Services\Restaurant\OfferService;
 use App\Http\Requests\OfferRequest;
+use App\Http\Controllers\Controller;
 
 class OfferController extends Controller
 {
     // Inject the OfferService into the controller.
-    public function __construct(private OfferService $offerService) {}
+    public function __construct(private OfferService $offerService)
+    {
+    }
 
     // Retrieve and return a list of all offers.
     public function index()

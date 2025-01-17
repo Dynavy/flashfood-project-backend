@@ -1,14 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
-use App\Services\UserService;
+use App\Services\User\UserService;
 use App\Http\Requests\UserRequest;
+use App\Http\Controllers\Controller;
 
 class UserController extends Controller
 {
     // Inject UserService into the controller.
-    public function __construct(private UserService $userService) {}
+    public function __construct(private UserService $userService)
+    {
+    }
 
     // Retrieve and return a paginated list of all users.
     public function index()

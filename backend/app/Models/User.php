@@ -8,8 +8,10 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Contracts\Auth\CanResetPassword;
+use App\Notifications\CustomResetPassword;
 
-class User extends Authenticatable
+class User extends Authenticatable implements CanResetPassword
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasApiTokens, HasFactory, Notifiable;
@@ -61,5 +63,11 @@ class User extends Authenticatable
     public function setPasswordAttribute(string $value): void
     {
         $this->attributes['password'] = Hash::make($value);
+    }
+
+    // Send the password reset notification with the provided token.
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new CustomResetPassword($token));
     }
 }

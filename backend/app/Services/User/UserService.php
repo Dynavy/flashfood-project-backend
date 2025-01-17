@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\User;
 
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -102,7 +102,6 @@ class UserService
 
             DB::commit();
             return $userName;
-
         } catch (\Exception $e) {
             DB::rollBack();
             throw $e;

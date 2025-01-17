@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Restaurant;
 
-use App\Services\CategoryService;
+use App\Services\Category\CategoryService;
 use App\Http\Requests\CategoryRequest;
+use App\Http\Controllers\Controller;
 
 class CategoryController extends Controller
 {

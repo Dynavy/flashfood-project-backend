@@ -1,14 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Review;
 
-use App\Services\ReviewService;
+use App\Services\Review\ReviewService;
 use App\Http\Requests\ReviewRequest;
+use App\Http\Controllers\Controller;
 
 class ReviewController extends Controller
 {
     // Inject ReviewService into the controller.
-    public function __construct(private ReviewService $reviewService) {}
+    public function __construct(private ReviewService $reviewService)
+    {
+    }
 
     // Retrieve and return a paginated list of all reviews.
     public function index()
