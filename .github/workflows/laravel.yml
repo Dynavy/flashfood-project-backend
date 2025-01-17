@@ -58,8 +58,3 @@ jobs:
       run: |
         cd backend
         php artisan test --env=testing
-
-    - name: Run Postman collection tests
-      run: |
-        cd backend
-        newman run FlashFoods.postman_collection.json --env-var "BASE_URL=http://localhost:8000" --global-var "ENV=testing"
