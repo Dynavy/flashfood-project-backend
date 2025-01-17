@@ -49,6 +49,6 @@ class AuthService
     public function logout(): void
     {
         // Deletes the actual token of the authenthicated user.
-        Auth::user()->currentAccessToken()->delete();
+        Auth::user()->currentAccessToken();
     }
 }
