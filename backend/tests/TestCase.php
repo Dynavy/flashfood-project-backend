@@ -15,9 +15,12 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
 
+        // Seed the database with necessary data.
+        $this->artisan('db:seed');
+
         // Load the test routes on a test environment. 
         if ($this->app->environment('testing')) {
-            require base_path('routes/error-auth.php');
+            include base_path('routes/auth-test-routes.php');
             require base_path('routes/error-test-routes.php');
         }
     }
