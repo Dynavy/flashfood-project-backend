@@ -5,12 +5,18 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use Illuminate\Support\Str;
 use PHPUnit\Framework\Attributes\Test;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\User;
 
 class AuthControllerTest extends TestCase
 {
-    // Store the password token generated upon registration.
+    // Execute the migrations to the testing database before each test.
+    use RefreshDatabase;
+
+    // This token will be used for the auth tests.
     protected $token;
 
+    // TESTS IF REGISTER WORKS.
     #[Test]
     public function test_user_can_register()
     {
@@ -22,8 +28,8 @@ class AuthControllerTest extends TestCase
             'password_confirmation' => 'password123'
         ];
 
-        // Sending a POST request to the registration endpoint.
-        $response = $this->postJson('/register', $userData);
+        // Sending a POST request to the registration endpoint with 'auth-test' prefix.
+        $response = $this->postJson('/auth-test/register', $userData);
 
         // Asserting the response status and structure.
         $response->assertStatus(201)
@@ -40,24 +46,26 @@ class AuthControllerTest extends TestCase
             ]);
     }
 
+    // TESTS IF REGISTER DOESN'T WORK.
     #[Test]
     public function test_user_cannot_register_with_invalid_data()
     {
         // Sending a POST request with empty data to the registration endpoint.
-        $response = $this->postJson('/register', []);
+        $response = $this->postJson('/auth-test/register', []);
 
         // Asserting the response status and validation errors.
         $response->assertStatus(422)
             ->assertJsonValidationErrors(['name', 'email', 'password']);
     }
 
+    // TEST IF LOGIN WORKS.
     #[Test]
     public function test_user_can_login()
     {
-        
-        // Sending a POST request to the login endpoint.
-        $response = $this->postJson('/login', [
-            'email' => 'testunit@example.com',
+
+        // Sending a POST request to the login endpoint with 'auth-test' prefix.
+        $response = $this->postJson('/auth-test/login', [
+            'email' => 'admin@example.com',
             'password' => 'password123'
         ]);
 
@@ -73,12 +81,13 @@ class AuthControllerTest extends TestCase
         $this->token = Str::after($response->json('token'), '|');
     }
 
+    // TEST IF DOESN'T LOGIN WORK.
     #[Test]
     public function test_user_cannot_login_with_invalid_credentials()
     {
 
         // Sending a POST request with invalid credentials to the login endpoint.
-        $response = $this->postJson('/login', [
+        $response = $this->postJson('/auth-test/login', [
             'email' => 'wrong@email.com',
             'password' => 'wrongpassword'
         ]);
@@ -90,37 +99,37 @@ class AuthControllerTest extends TestCase
         $response->assertStatus(422);
     }
 
+    // TEST IF LOGOUT WORKS.
     #[Test]
     public function test_user_can_logout()
     {
-        // Login to store the token later on.
-        $loginResponse = $this->postJson('/login', [
-            'email' => 'testunit@example.com',
+        // Create a test user.
+        $user = User::factory()->create([
+            'email' => 'admin1@example.com',
             'password' => 'password123'
         ]);
 
-        // Store the token from the login response.
-        $this->token = Str::after($loginResponse->json('token'), '|');
+        // Generate a persistent token for the user.
+        $userToken = $user->createToken('default')->plainTextToken;
 
-        // Prepare the email data for logout.
-        $mail = [
-            'email' => 'testunit@example.com'
-        ];
+        // Send logout request with the persistent token.
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $userToken,
+            'Content-Type' => 'application/json'
+        ])
+            ->postJson('/auth-test/logout');
 
-        // Send a logout request using the login token.
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->token)
-            ->postJson('/logout', $mail);
-
-        // Verify the response.
+        // Verify the logout response.
         $response->assertStatus(200)
             ->assertJson(['message' => 'User logged out successfully.']);
     }
 
+    // TEST IF AN UNAUTHENTHICATEED USER CAN'T LOGOUT.
     #[Test]
     public function test_unauthenticated_user_cannot_logout()
     {
         // Sending a logout request without authentication.
-        $response = $this->postJson('/logout');
+        $response = $this->postJson('/auth-test/logout');
 
         // Asserting the response status for unauthenticated logout.
         $response->assertStatus(401);
