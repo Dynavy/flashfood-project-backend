@@ -4,13 +4,17 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CustomExceptionHandlerTest extends TestCase
 {
+    // Execute the migrations to the testing database before each test.
+    use RefreshDatabase;
+
     #[Test]
     public function it_returns_custom_message_for_authentication_exception()
     {
-        $response = $this->get('/error-testing/401');
+        $response = $this->get('/handler-testing/401');
 
         $response->assertStatus(401);
         $response->assertJson([
@@ -19,7 +23,7 @@ class CustomExceptionHandlerTest extends TestCase
             'message' => 'Unauthorized.',
             'error' => [
                 'type' => 'AuthenticationException',
-                'details' => 'You need to authenticate to access this resource.',
+                'details' => 'The provided username or password is incorrect.',
             ],
         ]);
     }
@@ -27,7 +31,7 @@ class CustomExceptionHandlerTest extends TestCase
     #[Test]
     public function it_returns_custom_message_for_authorization_exception()
     {
-        $response = $this->get('/error-testing/403');
+        $response = $this->get('/handler-testing/403');
 
         $response->assertStatus(403);
         $response->assertJson([
@@ -44,7 +48,7 @@ class CustomExceptionHandlerTest extends TestCase
     #[Test]
     public function it_returns_custom_message_for_model_not_found_exception()
     {
-        $response = $this->get('/error-testing/404');
+        $response = $this->get('/handler-testing/404');
 
         $response->assertStatus(404);
         $response->assertJson([
@@ -61,7 +65,7 @@ class CustomExceptionHandlerTest extends TestCase
     #[Test]
     public function it_returns_custom_message_for_too_many_requests_exception()
     {
-        $response = $this->get('/error-testing/429');
+        $response = $this->get('/handler-testing/429');
 
         $response->assertStatus(429);
         $response->assertJson([
@@ -78,7 +82,7 @@ class CustomExceptionHandlerTest extends TestCase
     #[Test]
     public function it_returns_custom_message_for_query_exception()
     {
-        $response = $this->get('/error-testing/database-error');
+        $response = $this->get('/handler-testing/database-error');
 
         $response->assertStatus(500);
         $response->assertJson([
