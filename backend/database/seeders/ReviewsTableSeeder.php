@@ -13,6 +13,7 @@ class ReviewsTableSeeder extends Seeder
      */
     public function run(): void
     {
+        // Creates a Review with a fixed name 'Test' for testing purposes.
         Review::factory()->fixedReview([
             'restaurant_id' => 1,
             'user_id' => 1,
@@ -20,6 +21,6 @@ class ReviewsTableSeeder extends Seeder
             'likes' => 100,
         ])->create();
 
-        Review::factory()->count(50)->create();
+        Review::factory()->count(10)->create();
     }
 }
