@@ -12,6 +12,7 @@ class RestaurantsTableSeeder extends Seeder
      */
     public function run(): void
     {
+        // Creates a restaurant with a fixed name 'Test Restaurant' for testing purposes.
         Restaurant::factory()->fixedRestaurant([
             'name' => 'Test Restaurant',
             'address' => '123 Test Street',

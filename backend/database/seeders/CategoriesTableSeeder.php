@@ -13,7 +13,9 @@ class CategoriesTableSeeder extends Seeder
      */
     public function run(): void
     {
+        // Creates a category with a fixed name 'Test' for testing purposes.
         Category::factory()->fixedCategory('Test')->create();
+        
         Category::factory(10)->create();
     }
 }
