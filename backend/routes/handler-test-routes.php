@@ -7,7 +7,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 
-Route::prefix('error-testing')->group(function () {
+Route::prefix('handler-testing')->group(function () {
 
     // Test HTTP 400 - Malformed request
     Route::get('/400', function () {

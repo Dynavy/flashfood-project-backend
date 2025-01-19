@@ -21,7 +21,7 @@ abstract class TestCase extends BaseTestCase
         // Load the test routes on a test environment. 
         if ($this->app->environment('testing')) {
             include base_path('routes/auth-test-routes.php');
-            require base_path('routes/error-test-routes.php');
+            include base_path('routes/handler-test-routes.php');
         }
     }
 }
