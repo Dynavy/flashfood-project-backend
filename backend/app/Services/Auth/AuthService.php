@@ -51,7 +51,16 @@ class AuthService
 
     public function logout(): void
     {
-        // Deletes the actual token of the authenthicated user.
-        Auth::user()->currentAccessToken();
+        // User variable stores the currently authenticated user.
+        $user = Auth::user();
+
+        // Checks if the user has an active token.
+        if ($user->currentAccessToken()) {
+            // Deletes the active token of the user.
+            $user->currentAccessToken()->delete();
+        } else {
+            // Throws an exception if no active token is found.
+            throw new AuthenticationException('No active token found.');
+        }
     }
 }
